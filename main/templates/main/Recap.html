@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grace Is Awesome</title>
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            height: 100vh;
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scroll-snap-type: y mandatory; /* Enable snap scrolling */
+        }
+
+        section {
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            scroll-snap-align: start; /* Snap each section to the top */
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+        }
+
+        /* Content styles */
+        img {
+            max-width: 95%;
+            max-height: 75%;
+            margin-bottom: 20px;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.3s ease; /* Fade-in effect */
+        }
+
+        h1, p {
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Slide up effect */
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Fade-in effect */
+        }
+
+        /* Active section styles */
+        section.active img,
+        section.active h1,
+        section.active p {
+            opacity: 1; /* Make content visible */
+            transform: translateY(0); /* Reset slide effect */
+        }
+        /* Section-specific background colors */
+        section:nth-child(1) { background-color: #FFB6C1; } /* Light Pink */
+        section:nth-child(2) { background-color: #FFDAB9; } /* Peach Puff */
+        section:nth-child(3) { background-color: #FFE4E1; } /* Misty Rose */
+        section:nth-child(4) { background-color: #FFF0F5; } /* Lavender Blush */
+        section:nth-child(5) { background-color: #F0FFF0; } /* Honeydew */
+        section:nth-child(6) { background-color: #E6E6FA; } /* Lavender */
+        section:nth-child(7) { background-color: #FFFACD; } /* Lemon Chiffon */
+        section:nth-child(8) { background-color: #FFE4B5; } /* Moccasin */
+        section:nth-child(9) { background-color: #FAFAD2; } /* Light Goldenrod Yellow */
+        section:nth-child(10) { background-color: #FFDEAD; } /* Navajo White */
+        section:nth-child(11) { background-color: #FFC0CB; } /* Pink */
+        section:nth-child(12) { background-color: #582C83; } /* Gold */        
+    </style>
+</head>
+<body>
+    <div class="container" id="scroll-container">
+        <!-- Sections will be dynamically created here -->
+    </div>
+
+    <script>
+        const months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"]
+        const text = ["In January we kicked off the year with friends and family at the New Years Party!🎉🎉🎉",
+                      "In February, we visited you in Florida for the first time!🍊",
+                      "In March we visited you on Spring Break and went to Be Our Guest🌹",
+                      "In April we all visited you in Florida and spoke with Sir Vader💀",
+                      "In May you finished the Disney College program, graduating for the first time this year!🎓",
+                      "In June we went to Disneyland together after a long semester apart🗼",
+                      "In July you hung out with old friends and wore someone elses boots???👀",
+                      "In August we saw your favorite band together💃",
+                      "In September we watched Jacob and Amanda get married👰 - a perfect excuse to spend time with family",
+                      "In October you visited your friends from the college program in sanfran(tokyo?)🌉",
+                      "In November you turned 21 and had some fun being a real adult🥂🎉",
+                      "In December you graduated college in record time, just 2.5 years - everyone is so proud of you🎓🎉🎓🎉"]
+
+        const container = document.getElementById('scroll-container');
+
+        const imagePath = "{% static 'main/images/' %}"; // Adjust to match your Django static path
+
+        // Dynamically create 12 sections
+        for (let i = 1; i <= 12; i++) {
+            const section = document.createElement('section');
+
+            const img = document.createElement('img');
+            img.src = `${imagePath}${i}.jpg`;
+            img.alt = months[i-1];
+
+            const h1 = document.createElement('h1');
+            h1.textContent = months[i-1];
+
+            const p = document.createElement('p');
+            p.textContent = text[i-1];
+
+            section.appendChild(h1);
+            section.appendChild(p);
+            section.appendChild(img);
+
+            container.appendChild(section);
+        }
+
+        const sections = document.querySelectorAll('section');
+
+        // Function to update active sections based on scroll position
+        function updateActiveSections() {
+            const scrollPosition = container.scrollTop; // Current scroll position
+            const sectionHeight = container.clientHeight; // Height of each section
+
+            sections.forEach((section, index) => {
+                const sectionTop = index * sectionHeight;
+                const sectionBottom = sectionTop + sectionHeight;
+
+                // Check if the section is in the viewport
+                if (scrollPosition >= sectionTop - sectionHeight / 2 && scrollPosition < sectionBottom - sectionHeight / 2) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        }
+
+        // Listen for scroll events
+        container.addEventListener('scroll', () => {
+            updateActiveSections(); // Update active sections while scrolling
+        });
+
+        // Initialize the first section as active
+        updateActiveSections();
+    </script>
+</body>
+</html>

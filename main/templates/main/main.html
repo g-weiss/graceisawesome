@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grace Is Awesome</title>
+    <!-- Use correct version of canvas-confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Base styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh; /* Full height of the screen */
+            background-color: #B91F1C;
+            color: white;
+            position: relative;
+            padding: 20px;
+        }
+
+        .container h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px; /* Space between image and text */
+        }
+
+        .image-container img {
+            max-width: 50%;
+            max-height: 30%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .container p {
+            font-size: 2.5rem;
+            margin-top: 20px;
+            color: #FFD700;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Confetti canvas styles */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+    <div class="container">
+        <h1>Merry Christmas!</h1>
+        <!-- Image wrapped in an anchor tag for linking -->
+        <div class="image-container">
+            <a href="/2024-Recap">
+                <img src="{% static 'main/images/main.jpg' %}" alt="Grace">
+            </a>
+        </div>
+        <p>Grace Is Awesome</p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Check if confetti function exists
+            if (typeof confetti === 'function') {
+                console.log("Starting confetti");
+
+                confetti({
+                    particleCount: 300,
+                    spread: 180,
+                    origin: { y: 0.6 }, // Start from the top part of the screen
+                    colors: ['#FF0000', '#008000', '#FFD700', '#FFFFFF', '#C0C0C0'] // Christmas colors
+                });
+
+                console.log("Confetti started!");
+            } else {
+                console.error("Confetti function not available.");
+            }
+        };
+    </script>
+</body>
+</html>
